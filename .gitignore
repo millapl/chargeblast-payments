@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private assessment reference materials (do not commit)
+/docs/references/*
+!/docs/references/.gitkeep
+
+# playwright
+/test-results/
+/playwright-report/
