@@ -77,6 +77,7 @@ test.describe("payment details page", () => {
 
   test("path traversal style ids are rejected", async ({ page }) => {
     const response = await page.goto("/payments/..%2F..%2Fetc%2Fpasswd");
-    expect(response?.status()).toBe(404);
+    // The app answers 404; a hosting platform may reject the encoded slashes earlier with 400.
+    expect([400, 404]).toContain(response?.status());
   });
 });

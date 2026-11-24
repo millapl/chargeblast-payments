@@ -93,3 +93,5 @@ Baselines are of **our own** screens (guard regressions). Fidelity against the S
 | 2026-11-24 | `pnpm audit` | "No known vulnerabilities found" (scaffold + current deps) |
 
 Installed versions confirmed by reading `node_modules/*/package.json`: next 16.4.6, react/react-dom 19.3.0, @tanstack/react-table 9.3.1, nuqs 2.10.3, zod 4.6.7, tailwindcss 4.3.3, vitest 5.1.1, @playwright/test 1.65.1, @faker-js/faker 10.6.0. Playwright browsers appear cached on this machine (`~/Library/Caches/ms-playwright`); not yet exercised.
+
+| 2026-11-24 | **Deployed site** `E2E_BASE_URL=https://chargeblast-payments-blue.vercel.app pnpm e2e --grep-invert @visual` | **76 passed** against the Vercel deployment (visual tests are macOS-baseline only and were not run there). One assertion was relaxed: an encoded path-traversal id gets 404 from the app locally and 400 from Vercel's edge, so the test accepts either rejection. CI (GitHub Actions, Node 22) also passes after two fixes found there: the UTC offset label differed between ICU versions, and the tooltip hover test raced hydration |
