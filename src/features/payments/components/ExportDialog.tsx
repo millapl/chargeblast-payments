@@ -2,7 +2,6 @@
 
 import { useId, useState } from "react";
 import { Button, buttonStyles } from "@/shared/ui/Button";
-import { StripeIcon } from "@/shared/ui/StripeIcon";
 import {
   Dialog,
   DialogClose,
@@ -30,6 +29,7 @@ import {
   toPaymentsQuery,
 } from "../domain/url-state";
 import { usePaymentsUrlState } from "../hooks/usePaymentsUrlState";
+import { ExportIcon } from "./ExportIcon";
 import { TextInput } from "./filters/TextInput";
 import { usePaymentsTableContext } from "./table-context";
 
@@ -281,8 +281,8 @@ export function ExportDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-1.5 pr-2.5 pl-2.5">
-          <StripeIcon name="export" size={14} />
+        <Button size="toolbar">
+          <ExportIcon />
           Export
         </Button>
       </DialogTrigger>

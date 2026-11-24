@@ -15,7 +15,7 @@ export function Tabs() {
   return (
     <nav
       aria-label="Transactions sections"
-      className="mt-3 border-b border-border"
+      className="mt-[13px] border-b border-border"
     >
       <ul className="flex flex-wrap gap-x-[23px]">
         {TABS.map((tab) => {

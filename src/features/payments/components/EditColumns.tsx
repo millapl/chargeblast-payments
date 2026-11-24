@@ -18,8 +18,8 @@ export function EditColumns({ table }: { table: PaymentsTableInstance }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="gap-1.5 pr-2.5 pl-2.5">
-          <StripeIcon name="settings" size={14} />
+        <Button size="toolbar">
+          <StripeIcon name="settings" size={12} />
           Edit columns
         </Button>
       </PopoverTrigger>

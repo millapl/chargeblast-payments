@@ -20,7 +20,7 @@ export default function PaymentsPage({
       <PageHeader title="Transactions" />
       <Tabs />
       <Banner />
-      <div className="mt-[15px]">
+      <div className="mt-[14px]">
         <Suspense fallback={<PaymentsTableSkeleton />}>
           <PaymentsContent searchParams={searchParams} />
         </Suspense>

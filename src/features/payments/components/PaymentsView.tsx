@@ -45,9 +45,9 @@ export function PaymentsView({
     <PaymentsTableContext value={{ now, announce: setAnnouncement }}>
       <TooltipProvider>
         <StatusTiles />
-        <div className="mt-[14px] mb-[9px] flex items-center justify-between gap-3 max-sm:flex-col">
+        <div className="mt-[15px] mb-[11px] flex items-center justify-between gap-3 max-sm:flex-col">
           <FilterBar />
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-[7px]">
             <ExportDialog
               visibleColumnIds={table
                 .getVisibleLeafColumns()

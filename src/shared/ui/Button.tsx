@@ -2,18 +2,19 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/shared/lib/cn";
 
 type Variant = "primary" | "secondary";
-type Size = "md" | "sm";
+type Size = "md" | "sm" | "toolbar";
 
 const VARIANTS: Record<Variant, string> = {
   primary:
     "bg-accent text-white hover:bg-[#5851e6] active:bg-[#4f48cc] disabled:bg-accent/50",
   secondary:
-    "bg-white text-ink ring-1 ring-border hover:bg-subtle active:bg-line disabled:text-disabled disabled:hover:bg-white",
+    "bg-white text-ink ring-1 ring-inset ring-border shadow-[0_1px_0_rgba(33,37,63,0.16)] hover:bg-subtle active:bg-line disabled:text-disabled disabled:hover:bg-white",
 };
 
 const SIZES: Record<Size, string> = {
-  md: "h-[30px] px-[9px] text-[13.5px]",
+  md: "h-7 px-[9px] text-[13.5px]",
   sm: "h-6 px-[9px] text-[12.5px]",
+  toolbar: "h-7 px-2 text-[13.5px]",
 };
 
 export function buttonStyles(
