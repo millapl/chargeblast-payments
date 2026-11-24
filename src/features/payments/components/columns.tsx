@@ -82,15 +82,15 @@ export const columns = helper.columns([
   }),
   helper.accessor("amountMinor", {
     id: "amount",
-    size: 112,
+    size: 123,
     minSize: 80,
     header: () => <SortHeader sortKey="amount" align="right" />,
     cell: ({ row }) => (
       <span className="flex items-baseline gap-[13px]">
-        <span className="flex w-[63px] justify-end font-semibold text-ink tabular-nums">
+        <span className="flex flex-1 justify-end font-semibold text-ink tabular-nums">
           {formatMoney(row.original.amountMinor, row.original.currency)}
         </span>
-        <span className="w-7 text-muted">{row.original.currency}</span>
+        <span className="w-7 shrink-0 text-muted">{row.original.currency}</span>
       </span>
     ),
     meta: {
@@ -135,7 +135,7 @@ export const columns = helper.columns([
   }),
   helper.accessor("customerEmail", {
     id: "customer",
-    size: 255,
+    size: 244,
     minSize: 100,
     header: "Customer",
     cell: ({ row }) => (

@@ -236,3 +236,9 @@ The Payment method column was widened from 125 to 133 css px and given `pl-2` so
 ### Button metrics re-measured against the reference (2026-11-24)
 
 Ink and border positions of the Create payment, Analyze, Export and Edit columns buttons were compared with the reference PNG at the same scale. Buttons are 28 css px tall with the border drawn inside the box (`ring-inset`), 8–9 px horizontal padding, a 1 px darker bottom edge on secondary buttons, and 12 px icons in the toolbar. The Export icon is a thin outline traced from the reference (the live Dashboard now serves a heavier variant). Remaining differences are up to about 1 css px in horizontal position. The Payment ID column that the written requirements add is not in the reference, so columns to its right sit further right than in the screenshot.
+
+### Filter chip and Amount column fixes (2026-11-24)
+
+- An applied filter chip is now one pill: a single 24 px border with two borderless buttons inside (label and clear). Before, the label and the clear button had separate borders of different heights, which left a step in the outline and a square hover fill. 24 px (up from 23) is needed for WCAG 2.5.8 target size (axe `target-size`).
+- The Amount column was widened from 112 to 123 px and the Customer column narrowed from 255 to 244 px. Amounts such as "R$ 1,999.99" (82 px) were clipped under the checkbox column in the fixed-width layout. Columns after Customer keep their earlier positions.
+- Known differences kept on purpose: the Status header label (the reference leaves it blank, but the sortable column needs a name), the page-size selector next to Previous/Next (required by the written challenge), and darker checkbox borders for non-text contrast.

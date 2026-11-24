@@ -23,19 +23,23 @@ export function FilterChip({
   const active = summary !== "";
 
   return (
-    <div className="inline-flex items-center">
+    <div
+      className={cn(
+        "inline-flex h-6 items-center",
+        active && "rounded-full border border-solid border-icon",
+      )}
+    >
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"
             className={cn(
-              "inline-flex h-[23px] items-center gap-[5px] rounded-full border px-1.5 text-xs font-medium text-muted",
+              "inline-flex h-full items-center gap-[5px] px-1.5 text-xs font-medium text-muted",
               "hover:bg-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text",
               "data-[state=open]:bg-subtle",
               active
-                ? "border-solid border-icon pr-1.5 text-ink"
-                : "border-dashed border-border",
-              active && "rounded-r-none border-r-0",
+                ? "rounded-l-full text-ink"
+                : "rounded-full border border-dashed border-border",
             )}
           >
             <CirclePlus
@@ -65,7 +69,7 @@ export function FilterChip({
           type="button"
           onClick={onClear}
           aria-label={`Clear ${label} filter`}
-          className="-my-px inline-flex h-6 min-w-6 items-center justify-center rounded-r-full border border-l-0 border-solid border-icon pr-1.5 pl-1 text-icon hover:bg-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
+          className="inline-flex h-full min-w-6 items-center justify-center rounded-r-full pr-1.5 pl-1 text-icon hover:bg-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
         >
           <X aria-hidden size={12} strokeWidth={2.25} />
         </button>
