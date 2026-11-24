@@ -3,7 +3,7 @@
 A recreation of the Stripe Dashboard **Transactions → Payments** screen, built for the Chargeblast front-end engineering challenge. All data is synthetic; nothing here talks to Stripe.
 
 - **Stack:** Next.js 16 (App Router, Cache Components) · React 19 · TypeScript (strict) · Tailwind CSS 4 · TanStack Table 9 · nuqs · Zod 4 · Radix UI primitives · Vitest · Playwright · pnpm
-- **Live URL:** _not deployed yet_ (see [Deploying](#deploying))
+- **Live URL:** https://chargeblast-payments-blue.vercel.app/payments
 
 ## Run it
 

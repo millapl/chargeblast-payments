@@ -149,10 +149,15 @@ test.describe("payments table", () => {
   }) => {
     await page.goto("/payments");
     const date = rows(page).first().locator("time").first();
-    await date.hover();
-    await expect(page.getByRole("tooltip")).toContainText(
-      /ago|now|yesterday|in /,
-    );
+    // A hover before hydration is lost, so retry it until the tooltip appears.
+    await expect(async () => {
+      await page.mouse.move(5, 400);
+      await date.hover();
+      await expect(page.getByRole("tooltip")).toContainText(
+        /ago|now|yesterday|in /,
+        { timeout: 1000 },
+      );
+    }).toPass({ timeout: 10_000 });
     await page.mouse.move(5, 400, { steps: 20 });
     await expect(page.getByRole("tooltip")).toHaveCount(0);
     await date.focus();
