@@ -1,8 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Upload } from "lucide-react";
 import { Button, buttonStyles } from "@/shared/ui/Button";
+import { StripeIcon } from "@/shared/ui/StripeIcon";
 import {
   Dialog,
   DialogClose,
@@ -282,7 +282,7 @@ export function ExportDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="gap-1.5 pr-2.5 pl-2.5">
-          <Upload aria-hidden size={14} strokeWidth={2.25} />
+          <StripeIcon name="export" size={14} />
           Export
         </Button>
       </DialogTrigger>
