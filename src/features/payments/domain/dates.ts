@@ -60,6 +60,25 @@ function localMidnightMs(
   return second;
 }
 
+/** Local midnight of the first day of the month `monthOffset` months from `ms`'s month. */
+export function startOfMonthMs(
+  ms: number,
+  timeZone: string = DISPLAY_TIME_ZONE,
+  monthOffset = 0,
+): number {
+  const { year, month } = zonedParts(ms, timeZone);
+  // Date.UTC normalises month overflow/underflow (month 0 = December of the previous year).
+  const normalised = new Date(Date.UTC(year, month - 1 + monthOffset, 1));
+  return localMidnightMs(
+    {
+      year: normalised.getUTCFullYear(),
+      month: normalised.getUTCMonth() + 1,
+      day: 1,
+    },
+    timeZone,
+  );
+}
+
 export function startOfDayMs(
   ms: number,
   timeZone: string = DISPLAY_TIME_ZONE,
@@ -93,7 +112,8 @@ export interface TimeWindow {
 /**
  * Resolves a date-range selection to a UTC window.
  * - `today`: from local midnight until `now`.
- * - `7d` / `30d`: trailing 7 / 30 × 24 h until `now`.
+ * - `7d` / `30d` / `4w`: trailing 7 / 30 / 28 × 24 h until `now`.
+ * - `month`: local start of the current month until `now`; `last-month`: the whole previous month.
  * - `custom`: local start of `from` through local end of `to` (both inclusive). Invalid or
  *   reversed bounds are ignored (unbounded) so malformed URLs never break the view.
  */
@@ -113,6 +133,15 @@ export function resolveTimeWindow(
       return { start: now - 7 * DAY_MS, end: now };
     case "30d":
       return { start: now - 30 * DAY_MS, end: now };
+    case "4w":
+      return { start: now - 28 * DAY_MS, end: now };
+    case "month":
+      return { start: startOfMonthMs(now, timeZone, 0), end: now };
+    case "last-month":
+      return {
+        start: startOfMonthMs(now, timeZone, -1),
+        end: startOfMonthMs(now, timeZone, 0) - 1,
+      };
     case "custom": {
       const fromDate = from ? parseDateInput(from) : null;
       const toDate = to ? parseDateInput(to) : null;
@@ -125,6 +154,16 @@ export function resolveTimeWindow(
       return { start, end };
     }
   }
+}
+
+/** `2026-11-24 09:30:05` in `timeZone` (used by the CSV export). */
+export function formatLocalTimestamp(
+  iso: string,
+  timeZone: string = DISPLAY_TIME_ZONE,
+): string {
+  const p = zonedParts(Date.parse(iso), timeZone);
+  const two = (value: number) => String(value).padStart(2, "0");
+  return `${p.year}-${two(p.month)}-${two(p.day)} ${two(p.hour)}:${two(p.minute)}:${two(p.second)}`;
 }
 
 /** `Aug 16, 5:03 PM`; the year is added only when it differs from `now`'s year. */
@@ -161,4 +200,34 @@ export function formatRelativeTime(iso: string, now: number): string {
     if (abs >= size) return formatter.format(Math.round(diff / size), unit);
   }
   return formatter.format(0, "second");
+}
+
+/** `GMT-03:00` for `timeZone` at `at`. */
+export function formatUtcOffset(
+  at: number,
+  timeZone: string = DISPLAY_TIME_ZONE,
+): string {
+  const part = new Intl.DateTimeFormat(LOCALE, {
+    timeZone,
+    timeZoneName: "longOffset",
+  })
+    .formatToParts(at)
+    .find((candidate) => candidate.type === "timeZoneName");
+  return part?.value ?? "GMT";
+}
+
+/** `Nov 24` or `Nov 1–Nov 24`; empty for an unbounded window. */
+export function formatWindowLabel(
+  window: TimeWindow,
+  timeZone: string = DISPLAY_TIME_ZONE,
+): string {
+  if (window.start === null || window.end === null) return "";
+  const format = new Intl.DateTimeFormat(LOCALE, {
+    timeZone,
+    month: "short",
+    day: "numeric",
+  });
+  const start = format.format(window.start);
+  const end = format.format(window.end);
+  return start === end ? start : `${start}–${end}`;
 }

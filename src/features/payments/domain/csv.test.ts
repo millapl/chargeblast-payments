@@ -84,6 +84,26 @@ describe("paymentsToCsv", () => {
     expect(row).toContain("'@x");
   });
 
+  it("writes only the requested columns, in canonical order", () => {
+    const csv = paymentsToCsv([base], { columns: ["status", "id"] });
+    expect(csv.split("\r\n").slice(0, 2)).toEqual([
+      "Payment ID,Status",
+      "pi_000000000000000000000001,Failed",
+    ]);
+  });
+
+  it("can write timestamps in the display time zone and says so in the header", () => {
+    const csv = paymentsToCsv([base], {
+      columns: ["id", "created", "refunded"],
+      timeZone: "zone",
+    });
+    const [header, row] = csv.split("\r\n");
+    expect(header).toBe(
+      "Payment ID,Date (America/Sao_Paulo),Refunded date (America/Sao_Paulo)",
+    );
+    expect(row).toBe("pi_000000000000000000000001,2026-11-24 09:00:00,");
+  });
+
   it("returns only the header for an empty list", () => {
     expect(paymentsToCsv([]).split("\r\n")).toHaveLength(2);
   });

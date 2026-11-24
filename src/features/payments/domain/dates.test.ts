@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   formatDateTime,
   formatRelativeTime,
+  formatUtcOffset,
+  formatWindowLabel,
   parseDateInput,
   resolveTimeWindow,
   startOfDayMs,
@@ -61,6 +63,31 @@ describe("resolveTimeWindow", () => {
     expect(resolveTimeWindow("30d", null, null, now, ZONE).start).toBe(
       now - 30 * 86_400_000,
     );
+  });
+
+  it("4w is a trailing 28-day window", () => {
+    expect(resolveTimeWindow("4w", null, null, now, ZONE).start).toBe(
+      now - 28 * 86_400_000,
+    );
+  });
+
+  it("month starts at local midnight on the 1st", () => {
+    expect(resolveTimeWindow("month", null, null, now, ZONE)).toEqual({
+      start: utc("2026-11-01T03:00:00Z"),
+      end: now,
+    });
+  });
+
+  it("last-month covers the whole previous calendar month, across a year boundary too", () => {
+    expect(resolveTimeWindow("last-month", null, null, now, ZONE)).toEqual({
+      start: utc("2026-10-01T03:00:00Z"),
+      end: utc("2026-11-01T03:00:00Z") - 1,
+    });
+    const january = utc("2027-01-15T12:00:00Z");
+    expect(resolveTimeWindow("last-month", null, null, january, ZONE)).toEqual({
+      start: utc("2026-12-01T03:00:00Z"),
+      end: utc("2027-01-01T03:00:00Z") - 1,
+    });
   });
 
   it("all is unbounded", () => {
@@ -139,5 +166,38 @@ describe("formatRelativeTime", () => {
     ["2026-11-24T15:35:00Z", "in 5 minutes"],
   ])("%s -> %s", (iso, expected) => {
     expect(formatRelativeTime(iso, now)).toBe(expected);
+  });
+});
+
+describe("window labels", () => {
+  const now = utc("2026-11-24T15:30:00Z");
+
+  it("labels single days and ranges in the given zone", () => {
+    expect(
+      formatWindowLabel(
+        resolveTimeWindow("today", null, null, now, ZONE),
+        ZONE,
+      ),
+    ).toBe("Nov 24");
+    expect(
+      formatWindowLabel(
+        resolveTimeWindow("month", null, null, now, ZONE),
+        ZONE,
+      ),
+    ).toBe("Nov 1–Nov 24");
+    expect(
+      formatWindowLabel(
+        resolveTimeWindow("last-month", null, null, now, ZONE),
+        ZONE,
+      ),
+    ).toBe("Oct 1–Oct 31");
+    expect(
+      formatWindowLabel(resolveTimeWindow("all", null, null, now, ZONE), ZONE),
+    ).toBe("");
+  });
+
+  it("formats the UTC offset", () => {
+    expect(formatUtcOffset(now, ZONE)).toBe("GMT-03:00");
+    expect(formatUtcOffset(now, "UTC")).toBe("GMT");
   });
 });

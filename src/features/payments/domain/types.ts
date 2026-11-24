@@ -53,7 +53,16 @@ export const PAGE_SIZES = [25, 50, 100] as const;
 export type PageSize = (typeof PAGE_SIZES)[number];
 export const DEFAULT_PAGE_SIZE: PageSize = 25;
 
-export const DATE_RANGES = ["all", "today", "7d", "30d", "custom"] as const;
+export const DATE_RANGES = [
+  "all",
+  "today",
+  "7d",
+  "30d",
+  "month",
+  "4w",
+  "last-month",
+  "custom",
+] as const;
 export type DateRange = (typeof DATE_RANGES)[number];
 
 export const SORT_KEYS = ["date", "amount", "status"] as const;

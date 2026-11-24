@@ -31,7 +31,7 @@ Legend:
 | REQ-TECH-01, 02 | Verified | Next.js App Router + TypeScript strict; Tailwind 4 |
 | REQ-OPT-01, 02 | Built | Sidebar (inert entries except Transactions), top bar with search, and an **account menu** (sidebar header popover; actions are inert and labelled as demo) |
 | REQ-OPT-03, 04, 06 | Verified | Details page (synthetic timeline), URL state, CSV export |
-| REQ-OPT-05 | **Not built** | Deliberate |
+| REQ-OPT-05 | Built | Reorder + resize (mouse and keyboard); not persisted |
 | REQ-DEL-01…06 | **Not done** | Deploy, GitHub link, reply email — need the user's accounts; the PDF deadline (Nov 20, 2026) has passed |
 
 ## 1. Official requirements
@@ -106,8 +106,8 @@ Legend:
 | REQ-OPT-02 | Top bar: search input + account menu | Matches reference; menu accessible | VIS, A11Y | Build |
 | REQ-OPT-03 | Payment details page (own route) with event timeline + metadata | `/payments/[id]` route, 404 for unknown id, timeline from data | E2E, VIS | **Built (Step 11):** timeline + details + metadata; the timeline is **synthetic** (derived from status and timestamps, labelled as such on the page); malformed ids get a real 404 status via `proxy.ts`, well-formed unknown ids render the not-found UI with status 200 + `noindex` (streaming limitation) |
 | REQ-OPT-04 | Saved filters, or filters in URL for shareable links | URL round-trips all filter/sort/page state | UT, E2E | **Built:** all filter/sort/page/size state lives in the URL (UT + E2E). Saved filters: not planned |
-| REQ-OPT-05 | Column resizing and drag-reorder | Pointer + keyboard operable | E2E, A11Y | **Not built** (decision: highest complexity for the least weight in the PDF ranking; "Edit columns" visibility toggling exists instead) |
-| REQ-OPT-06 | CSV export of current view | Exports filtered+sorted rows; formula-injection safe (REC-SEC-02) | UT, E2E | **Built (Step 6):** Export button → `/payments/export` returns all rows matching filters/sort (not just the page); UT for escaping, E2E for headers/content |
+| REQ-OPT-05 | Column resizing and drag-reorder | Pointer + keyboard operable | E2E, A11Y | **Built (2026-11-24, user request):** drag a header to reorder (dnd-kit, as the Stripe Dashboard does) or use Space + arrow keys; drag the header edge to resize (TanStack column sizing/resizing), Shift+Arrow resizes by keyboard (Alt = 1 px), double-click resets; min widths enforced; "Reset to default" restores order, widths and visibility. E2E for mouse and keyboard on both. Not persisted across reloads. |
+| REQ-OPT-06 | CSV export of current view | Exports filtered+sorted rows; formula-injection safe (REC-SEC-02) | UT, E2E | **Built; reworked 2026-11-24 to follow the Stripe "Export payments" dialog:** Export opens a dialog with Time zone (display zone or UTC), Date range (Current view, Today, Current month, Last 7 days, Last 4 weeks, Last month, All, Custom, each showing the dates it covers), Columns (Default or the visible table columns, with the list shown) and Cancel/Export. The file contains every row matching the table filters (+ chosen date range) and sort, not just the page. UT for escaping/options/date presets, E2E for the dialog and downloaded content |
 
 ### 1.8 Delivery and review
 

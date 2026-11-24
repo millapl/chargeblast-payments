@@ -1,8 +1,8 @@
 "use client";
 
 import type { Table } from "@tanstack/react-table";
-import { Settings2 } from "lucide-react";
 import { Button } from "@/shared/ui/Button";
+import { StripeIcon } from "@/shared/ui/StripeIcon";
 import { Checkbox } from "@/shared/ui/Checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/Popover";
 import type { Payment } from "../domain/types";
@@ -18,8 +18,8 @@ export function EditColumns({ table }: { table: PaymentsTableInstance }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="gap-1 pr-[7px]">
-          <Settings2 aria-hidden size={15} strokeWidth={2.25} />
+        <Button className="gap-1.5 pr-2.5 pl-2.5">
+          <StripeIcon name="settings" size={14} />
           Edit columns
         </Button>
       </PopoverTrigger>
@@ -50,7 +50,11 @@ export function EditColumns({ table }: { table: PaymentsTableInstance }) {
         </fieldset>
         <Button
           className="mt-3 w-full justify-center"
-          onClick={() => table.resetColumnVisibility()}
+          onClick={() => {
+            table.resetColumnVisibility();
+            table.resetColumnOrder();
+            table.resetColumnSizing();
+          }}
         >
           Reset to default
         </Button>

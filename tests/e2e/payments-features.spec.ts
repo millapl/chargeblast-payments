@@ -31,26 +31,6 @@ test.describe("CSV export", () => {
     expect(response.status()).toBe(200);
     expect((await response.text()).trimEnd().split("\r\n")).toHaveLength(501);
   });
-
-  test("the Export button downloads the current view", async ({ page }) => {
-    await page.goto("/payments?currency=JPY");
-    const [download] = await Promise.all([
-      page.waitForEvent("download"),
-      page.getByRole("link", { name: "Export" }).click(),
-    ]);
-    expect(download.suggestedFilename()).toBe("payments.csv");
-    const stream = await download.createReadStream();
-    const chunks: Buffer[] = [];
-    for await (const chunk of stream) chunks.push(Buffer.from(chunk));
-    const lines = Buffer.concat(chunks)
-      .toString("utf8")
-      .trimEnd()
-      .split("\r\n");
-    expect(lines.length).toBeGreaterThan(1);
-    expect(lines.slice(1).every((line) => line.split(",")[2] === "JPY")).toBe(
-      true,
-    );
-  });
 });
 
 test.describe("Edit columns", () => {

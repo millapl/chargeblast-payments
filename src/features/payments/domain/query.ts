@@ -94,8 +94,15 @@ export function filterPayments(
   payments: readonly Payment[],
   query: PaymentsQuery,
   now: number,
+  timeZone?: string,
 ): Payment[] {
-  const window = resolveTimeWindow(query.range, query.from, query.to, now);
+  const window = resolveTimeWindow(
+    query.range,
+    query.from,
+    query.to,
+    now,
+    timeZone,
+  );
   const min = query.min === null ? null : parseAmountInput(query.min);
   const max = query.max === null ? null : parseAmountInput(query.max);
   // A reversed range (min > max) is treated as unbounded rather than empty.

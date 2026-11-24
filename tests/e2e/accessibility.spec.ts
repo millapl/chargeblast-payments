@@ -53,6 +53,23 @@ test.describe("axe (WCAG 2.2 AA)", () => {
     await scan(page);
   });
 
+  test("export dialog open, including the custom range with an error", async ({
+    page,
+  }) => {
+    await page.goto("/payments");
+    await page.waitForLoadState("networkidle");
+    await page.getByRole("button", { name: "Export" }).click();
+    await expect(
+      page.getByRole("dialog", { name: "Export payments" }),
+    ).toBeVisible();
+    await scan(page);
+    await page.getByRole("radio", { name: "Custom" }).check();
+    await expect(
+      page.getByRole("alert").filter({ hasText: "Choose a start date" }),
+    ).toBeVisible();
+    await scan(page);
+  });
+
   test("account menu open", async ({ page }) => {
     await page.goto("/payments");
     await page.waitForLoadState("networkidle");
@@ -148,9 +165,9 @@ test.describe("keyboard and preferences", () => {
     page,
   }) => {
     await page.goto("/payments");
-    const sortable = page
-      .getByRole("columnheader")
-      .filter({ has: page.getByRole("button") });
+    const sortable = page.getByRole("columnheader").filter({
+      has: page.getByRole("button", { name: /^Sort by|, sorted/ }),
+    });
     await expect(sortable).toHaveCount(3);
     for (const header of await sortable.all()) {
       await expect(header).toHaveAttribute(

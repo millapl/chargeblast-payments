@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  type Header,
+  type Table,
+  columnOrderingFeature,
+  columnResizingFeature,
+  columnSizingFeature,
   columnVisibilityFeature,
   createColumnHelper,
   rowSelectionFeature,
@@ -19,13 +24,39 @@ import { StatusBadge } from "./StatusBadge";
 export const tableFeaturesConfig = tableFeatures({
   rowSelectionFeature,
   columnVisibilityFeature,
+  columnOrderingFeature,
+  columnSizingFeature,
+  columnResizingFeature,
 });
+
+export type PaymentsTable = Table<typeof tableFeaturesConfig, Payment>;
+export type PaymentsHeader = Header<
+  typeof tableFeaturesConfig,
+  Payment,
+  unknown
+>;
+
+/** Columns the user can drag to reorder; the checkbox and actions columns stay at the ends. */
+export const REORDERABLE_COLUMN_IDS: ReadonlySet<string> = new Set([
+  "amount",
+  "status",
+  "method",
+  "description",
+  "paymentId",
+  "customer",
+  "date",
+  "refundedAt",
+  "declineReason",
+]);
 
 const helper = createColumnHelper<typeof tableFeaturesConfig, Payment>();
 
 export const columns = helper.columns([
   helper.display({
     id: "select",
+    size: 40,
+    minSize: 40,
+    enableResizing: false,
     enableHiding: false,
     header: ({ table }) => (
       <Checkbox
@@ -47,10 +78,12 @@ export const columns = helper.columns([
         onCheckedChange={(checked) => row.toggleSelected(checked)}
       />
     ),
-    meta: { className: "w-10 pl-[5px]" },
+    meta: { className: "pl-[5px]" },
   }),
   helper.accessor("amountMinor", {
     id: "amount",
+    size: 112,
+    minSize: 80,
     header: () => <SortHeader sortKey="amount" align="right" />,
     cell: ({ row }) => (
       <span className="flex items-baseline gap-[13px]">
@@ -62,60 +95,76 @@ export const columns = helper.columns([
     ),
     meta: {
       label: "Amount",
-      className: "w-[112px]",
+      className: "",
       headerClassName: "pr-[49px] text-right",
     },
   }),
   helper.accessor("status", {
     id: "status",
+    size: 118,
+    minSize: 80,
     header: () => <SortHeader sortKey="status" />,
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
-    meta: { label: "Status", className: "w-[118px] pl-[3px]" },
+    meta: { label: "Status", className: "pl-[3px]" },
   }),
   helper.display({
     id: "method",
+    size: 133,
+    minSize: 90,
     header: "Payment method",
     cell: ({ row }) => <PaymentMethodCell method={row.original.method} />,
-    meta: { label: "Payment method", className: "w-[125px]" },
+    meta: { label: "Payment method", className: "pl-2" },
   }),
   helper.accessor("description", {
     id: "description",
+    size: 148,
+    minSize: 80,
     header: "Description",
     cell: ({ row }) => (
       <span className="text-muted">{row.original.description}</span>
     ),
-    meta: { label: "Description", className: "w-[148px] pl-2" },
+    meta: { label: "Description", className: "pl-2" },
   }),
   helper.display({
     id: "paymentId",
+    size: 150,
+    minSize: 90,
     header: "Payment ID",
     cell: ({ row }) => <PaymentIdCell id={row.original.id} />,
-    meta: { label: "Payment ID", className: "w-[150px] pl-2" },
+    meta: { label: "Payment ID", className: "pl-2" },
   }),
   helper.accessor("customerEmail", {
     id: "customer",
+    size: 255,
+    minSize: 100,
     header: "Customer",
     cell: ({ row }) => (
       <span className="block truncate text-muted">
         {row.original.customerEmail}
       </span>
     ),
-    meta: { label: "Customer", className: "w-[255px] max-w-[255px] pl-2" },
+    meta: { label: "Customer", className: "pl-2" },
   }),
   helper.accessor("createdAt", {
     id: "date",
+    size: 130,
+    minSize: 90,
     header: () => <SortHeader sortKey="date" />,
     cell: ({ row }) => <DateCell iso={row.original.createdAt} />,
-    meta: { label: "Date", className: "w-[130px] pl-2" },
+    meta: { label: "Date", className: "pl-2" },
   }),
   helper.accessor("refundedAt", {
     id: "refundedAt",
+    size: 130,
+    minSize: 90,
     header: "Refunded date",
     cell: ({ row }) => <OptionalDateCell iso={row.original.refundedAt} />,
-    meta: { label: "Refunded date", className: "w-[130px] pl-2" },
+    meta: { label: "Refunded date", className: "pl-2" },
   }),
   helper.accessor("declineReason", {
     id: "declineReason",
+    size: 170,
+    minSize: 90,
     header: "Decline reason",
     cell: ({ row }) =>
       row.original.declineReason === null ? (
@@ -127,11 +176,14 @@ export const columns = helper.columns([
       ),
     meta: {
       label: "Decline reason",
-      className: "w-[170px] max-w-[170px] pl-2",
+      className: "pl-2",
     },
   }),
   helper.display({
     id: "actions",
+    size: 40,
+    minSize: 40,
+    enableResizing: false,
     enableHiding: false,
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => (
@@ -143,6 +195,6 @@ export const columns = helper.columns([
         <Ellipsis aria-hidden size={16} />
       </button>
     ),
-    meta: { className: "w-10 pl-1" },
+    meta: { className: "pl-1" },
   }),
 ]);

@@ -71,6 +71,9 @@ export const DATE_RANGE_LABELS = {
   today: "Today",
   "7d": "7 days",
   "30d": "30 days",
+  month: "Current month",
+  "4w": "Last 4 weeks",
+  "last-month": "Last month",
   custom: "Custom",
 } as const;
 

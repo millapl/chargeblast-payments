@@ -228,3 +228,7 @@ Reference shows only a single desktop layout (≈ 1440 CSS px wide, inferred). N
 | Date | Review | Outcome |
 |---|---|---|
 | — | side-by-side review | Not yet executed |
+
+### Known deviation: Payment method column (2026-11-24)
+
+The Payment method column was widened from 125 to 133 css px and given `pl-2` so its header and cells have the same horizontal padding as the other columns (user request). Description and every column after it therefore sit about 8 css px further right than in the earlier pixel calibration. The calibration battery was not re-run after this change.

@@ -31,11 +31,11 @@ pnpm build && pnpm start   # production build
 - Filters: date range (Today, 7 days, 30 days, Custom), status and payment method (multi-select), amount range, text search by payment ID, email or last 4 digits
 - 500 deterministic synthetic payments in 5 currencies (including zero-decimal JPY) and a realistic status mix
 
-**Optional extras built:** sidebar and top bar · payment details page (`/payments/[id]`) with timeline and metadata · every filter/sort/page in the URL, so any view is a shareable link · CSV export of the current view
+**Optional extras built:** sidebar and top bar · payment details page (`/payments/[id]`) with timeline and metadata · every filter/sort/page in the URL, so any view is a shareable link · **CSV export** through an "Export payments" dialog (time zone, date range, columns) · **column reordering** (drag a header, or Space + arrow keys) and **column resizing** (drag the header edge, or Shift + arrow keys; double-click resets) · Edit columns
 
 **Reference-fidelity extras:** status tiles, Currency filter, "Edit columns", row selection, the announcement banner, Disputed/Uncaptured/Canceled/Blocked statuses
 
-**Not built:** column resize / drag-to-reorder, saved filters, real navigation for the other sidebar entries (they are inert), account menu
+**Not built:** saved filters, persistence of column order/width/visibility across reloads, real navigation for the other sidebar entries (they are inert), account menu
 
 ## Design decisions worth knowing
 
