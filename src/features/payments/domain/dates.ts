@@ -61,7 +61,7 @@ function localMidnightMs(
 }
 
 /** Local midnight of the first day of the month `monthOffset` months from `ms`'s month. */
-export function startOfMonthMs(
+function startOfMonthMs(
   ms: number,
   timeZone: string = DISPLAY_TIME_ZONE,
   monthOffset = 0,
@@ -102,7 +102,7 @@ export function parseDateInput(input: string): LocalDate | null {
   return valid ? { year, month, day } : null;
 }
 
-export interface TimeWindow {
+interface TimeWindow {
   /** Inclusive lower bound in UTC ms, or `null` for unbounded. */
   start: number | null;
   /** Inclusive upper bound in UTC ms, or `null` for unbounded. */

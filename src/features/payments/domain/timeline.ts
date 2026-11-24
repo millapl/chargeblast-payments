@@ -1,6 +1,6 @@
 import type { Payment, PaymentStatus } from "./types";
 
-export interface TimelineEvent {
+interface TimelineEvent {
   id: string;
   title: string;
   description?: string;

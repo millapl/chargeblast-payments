@@ -8,8 +8,8 @@ import {
   type PaymentStatus,
 } from "../domain/types";
 
-export const DEFAULT_SEED = 20261124;
-export const DEFAULT_COUNT = 500;
+const DEFAULT_SEED = 20261124;
+const DEFAULT_COUNT = 500;
 
 const HISTORY_DAYS = 45;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -81,7 +81,7 @@ const DECLINE_REASONS: Record<"failed" | "blocked", readonly string[]> = {
   blocked: ["Blocked for suspected fraud", "Highest risk level"],
 };
 
-export interface GenerateOptions {
+interface GenerateOptions {
   seed?: number;
   count?: number;
   /** Rows are created in the window `[anchor - 45 days, anchor]`. Never in the future. */

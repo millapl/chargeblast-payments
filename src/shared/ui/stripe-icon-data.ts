@@ -2,7 +2,7 @@
 // path data of the Dashboard's own icon set, extracted read-only through the browser. The challenge
 // statement asks to copy icons and assets as they appear in the reference. They are Stripe's
 // artwork; replace them before any use beyond this assessment recreation.
-export interface IconPath {
+interface IconPath {
   d: string;
   evenodd?: boolean;
 }

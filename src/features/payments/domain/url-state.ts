@@ -61,7 +61,7 @@ export type PaymentsSearchParamValues = inferParserType<
   typeof paymentsSearchParams
 >;
 
-export const loadPaymentsSearchParams = createLoader(paymentsSearchParams);
+const loadPaymentsSearchParams = createLoader(paymentsSearchParams);
 export const serializePaymentsSearchParams =
   createSerializer(paymentsSearchParams);
 

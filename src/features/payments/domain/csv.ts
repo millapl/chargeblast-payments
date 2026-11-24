@@ -64,7 +64,7 @@ export interface CsvOptions {
   timeZone?: ExportTimeZone;
 }
 
-export function exportTimeZoneLabel(timeZone: ExportTimeZone): string {
+function exportTimeZoneLabel(timeZone: ExportTimeZone): string {
   return timeZone === "utc" ? "UTC" : DISPLAY_TIME_ZONE;
 }
 
