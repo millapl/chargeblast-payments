@@ -202,7 +202,7 @@ export function formatRelativeTime(iso: string, now: number): string {
   return formatter.format(0, "second");
 }
 
-/** `GMT-03:00` for `timeZone` at `at`. */
+/** `GMT-03:00` for `timeZone` at `at`; UTC is always `GMT+00:00` (ICU versions differ on the bare `GMT`). */
 export function formatUtcOffset(
   at: number,
   timeZone: string = DISPLAY_TIME_ZONE,
@@ -213,7 +213,7 @@ export function formatUtcOffset(
   })
     .formatToParts(at)
     .find((candidate) => candidate.type === "timeZoneName");
-  return part?.value ?? "GMT";
+  return !part || part.value === "GMT" ? "GMT+00:00" : part.value;
 }
 
 /** `Nov 24` or `Nov 1–Nov 24`; empty for an unbounded window. */

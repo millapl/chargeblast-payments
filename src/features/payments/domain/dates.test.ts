@@ -198,6 +198,6 @@ describe("window labels", () => {
 
   it("formats the UTC offset", () => {
     expect(formatUtcOffset(now, ZONE)).toBe("GMT-03:00");
-    expect(formatUtcOffset(now, "UTC")).toBe("GMT");
+    expect(formatUtcOffset(now, "UTC")).toBe("GMT+00:00");
   });
 });
