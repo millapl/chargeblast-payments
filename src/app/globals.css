@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans:
+    -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu,
+    sans-serif;
+  --font-mono: "Source Code Pro", Menlo, Monaco, monospace;
+
+  --color-ink: #363943;
+  --color-ink-strong: #2f303c;
+  --color-muted: #5a6170;
+  --color-icon: #6d7686;
+  --color-disabled: #9b9ba1;
+  --color-line: #eceef1;
+  --color-border: #d9dee3;
+  --color-control: #8b93a1;
+  --color-subtle: #f5f6f8;
+  --color-accent: #635bff;
+  --color-accent-text: #533afd;
+
+  --color-success-bg: #edfbe0;
+  --color-success-border: #b8ef81;
+  --color-success-text: #396e1f;
+  --color-danger-bg: #fcf4f6;
+  --color-danger-border: #f5d4dc;
+  --color-danger-text: #b02b41;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --text-body: 13.4px;
+  --text-body--line-height: 20px;
+  --text-title: 27px;
+  --text-title--line-height: 32px;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
